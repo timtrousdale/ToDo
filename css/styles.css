@@ -1,0 +1,57 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.board {
+  height: 100%;
+  width: 100%;
+  background-image: url(../img/cork.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.note {
+  height: 300px;
+  width: 300px;
+  background-image: url("../img/note3.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+.note .pin {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-43%);
+  height: 60px;
+  width: 60px;
+  border-radius: 200px;
+  cursor: grab;
+}
+.note .note-body {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 60px;
+}
+
+.ui-resizable-handle {
+  position: absolute;
+  font-size: 0.1px;
+  z-index: 99999;
+  display: block;
+}
+
+.grab {
+  cursor: grab;
+}
+
+.grab.grabbed {
+  cursor: grabbing;
+}
+
+/*# sourceMappingURL=styles.css.map */

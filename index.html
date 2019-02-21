@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do</title>
+
+    <!-- JQuery / JQuery UI-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="js/scripts.js" defer></script>
+
+</head>
+
+<body>
+    <div class="board">
+
+
+        <input class="myinput" type="text" onkeyup="checkKey(event, element)">
+        <button onclick="addItem()">Add Item</button>
+        <div class="list"></div>
+
+        <div class="note draggable resizable" id="">
+            <div class="pin grab"></div>
+            <div class="note-body">
+                <input class="todoInput" type="text" onkeyup="checkKey(event)">
+
+            </div>
+
+        </div>
+
+
+        <button onclick="addList(document.getElementById('listName').value)">+</button>
+
+        <button onclick="addTaskToList(document.getElementById('newTask').value)">+</button>
+    </div>
+
+
+</body>
+</html>

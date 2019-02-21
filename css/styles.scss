@@ -1,0 +1,68 @@
+$cardSize: 300px;
+
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.board {
+  height: 100%;
+  width: 100%;
+  background-image: url(../img/cork.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+// ------------
+//    Cards
+// ------------
+
+
+.note {
+  height: $cardSize;
+  width: $cardSize;
+  background-image: url("../img/note3.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+
+  .pin {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-43%);
+    height: $cardSize * .2;
+    width: $cardSize * .2;
+    border-radius: 200px;
+    cursor: grab;
+  }
+
+  .note-body {
+    padding-left: $cardSize * .1;
+    padding-right: $cardSize * .1;
+    padding-top: $cardSize * .2;
+  }
+
+}
+
+
+.ui-resizable-handle {
+  position: absolute;
+  font-size: 0.1px;
+  z-index: 99999;
+  display: block;
+}
+
+
+.grab {
+  cursor: grab;
+}
+
+.grab.grabbed {
+  cursor: grabbing ;
+}

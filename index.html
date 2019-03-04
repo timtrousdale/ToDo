@@ -12,35 +12,47 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-
     <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="js/partials.js" defer></script>
     <script src="js/scripts.js" defer></script>
-
 </head>
-
 <body>
-    <div class="board">
-
-
-        <input class="myinput" type="text" onkeyup="checkKey(event, element)">
-        <button onclick="addItem()">Add Item</button>
-        <div class="list"></div>
-
-        <div class="note draggable resizable" id="">
-            <div class="pin grab"></div>
-            <div class="note-body">
-                <input class="todoInput" type="text" onkeyup="checkKey(event)">
-
-            </div>
-
+    <div class="header">
+        <h1 class="title">To-Do Board</h1>
+        <div class="row">
+            <input class="note-input" type="text" placeholder="+new note" onkeyup="checkKey(event, addNote)">
+            <button class="add-note pointer" onclick="addNote($(this).siblings('.note-input')[0])">+add</button>
         </div>
-
-
-        <button onclick="addList(document.getElementById('listName').value)">+</button>
-
-        <button onclick="addTaskToList(document.getElementById('newTask').value)">+</button>
+        <button class="pointer">Clear All Finished Tasks</button>
     </div>
 
 
+    <div class="board">
+
+        <!-- Error Modals -->
+        <div class="dialog note-error" title="whoops!">
+            <p>A Note with that name already exists</p>
+        </div>
+        <div class="dialog task-error" title="whoops!">
+            <p>That Task is already on your Note</p>
+        </div>
+        <!-- END Error Modals-->
+
+        <div class="note draggable resizable" id="Unassigned">
+
+            <div class="pin grab"></div>
+            <div class="note-body">
+
+                <div class="note-title">Unassigned</div>
+                <div class="note-todo-list" id="Unassigned"></div>
+                <div class="todo-item" id="">
+                    <input class="todo-input" type="text" placeholder="+new task" onkeyup="checkKey(event, addTask)">
+                    <button class="pointer" onclick="addTask($(this).siblings('.todo-input')[0])">+add</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 </body>
 </html>

@@ -1,103 +1,256 @@
-// $("#sortable").sortable({ handle: ".header" });
-$(".draggable").draggable({handle: ".pin", containment: "parent",});
+let masterList = {
+    Unassigned: {
+        tasks: [],
+        top: '0',
+        left: '0'
+    }
+};
 
-$(".resizable").resizable({
-    aspectRatio: true,
-    stop: function (event, el) {
-        let height = el.size.height * .2;
-        let width = el.size.width * .2;
-        $(this).children('.pin').css({'height': height, 'width' : width});
+let loadAll, createCard, createTask, pin;
 
-        //TODO Add Padding to the main body proportionate to size of card
+function dynamicNotes() {
+    // Makes notes draggable
+    $(".draggable").draggable({handle: ".pin", containment: "parent",});
 
+    // Makes notes resizable
+    $(".resizable").resizable({
+        aspectRatio: true,
+        resize: (event, ui) => {
+            let el = ui.element;
+            let height = el.height() * .2;
+            let width = el.width() * .2;
+
+            el.children('.pin').css({
+                'height': height,
+                'width': width
+            });
+            el.children('.note-body').css({
+                'padding-top': height,
+                'padding-left': (width / 2),
+                'padding-right': (width / 2)
+            });
+        }
+    });
+
+    // Keeps resize icon from floating to the front of page
+    $(".ui-resizable-handle").css('z-index', '0');
+}
+
+// Pin Cursor Logic
+$(".board").on("mousedown", '.pin', function () {
+    pin = $(this);      // Used for on mouseup since it targets window
+    pin.addClass("grabbed");
+}).on("mouseup", '.pin', function () {
+    pin.removeClass("grabbed");
+    let top = pin.parent()[0].offsetTop;
+    let left = pin.parent()[0].offsetLeft;
+    let name = pin.parent().find('.note-title')[0].innerText;
+    masterList[name].top = top;
+    masterList[name].left = left;
+    update();           // Updates note location in local storage
+});
+
+
+//Gets the Note name/Task Name to update masterList
+function update() {
+    let todo = JSON.stringify(masterList);
+    localStorage.setItem('todo', todo);
+}
+
+function reload() {  // Reloads all your notes from local storage on page load
+    let local = localStorage.getItem('todo');
+    if (local) {
+        masterList = JSON.parse(local);
+
+        // Adds saved notes
+        for (list in masterList) {
+            if (list !== 'Unassigned') {
+                let ob = masterList[list];
+                let top = ob.top;
+                let left = ob.left;
+                let tasks = '';
+
+                ob.tasks.forEach(function (val) {
+                    let task = buildTask(val);
+                    tasks += task;
+                });
+
+                let el = buildNote(list, tasks, top, left);
+                $('.board').append(el);
+
+
+            } else {
+                masterList['Unassigned'].tasks.forEach(function (val) {
+                    let task = buildTask(val);
+                    $($('#Unassigned').find('.note-todo-list')[0]).append(task);
+                });
+                $('#Unassigned').css({top: masterList['Unassigned'].top, left: masterList['Unassigned'].left})
+            }
+        }
+    }
+    dynamicNotes(); //makes dynamically added after load notes Dynamic
+}
+
+
+function clearCache() {
+    localStorage.clear();
+}
+
+
+// --------------
+//  Error Modals
+// --------------
+
+$('.note-error').dialog({
+    dialogClass: 'no-close',
+    modal: true,
+    autoOpen: false,
+    open: () => {
+        $('body').bind('click', function () {
+            $('.dialog').dialog('close');
+        })
     }
 });
 
-//Cursor Logic
-$(".pin").on("mousedown", function () {
-    $(this).addClass("grabbed");
-}).on("mouseup", function () {
-    $(this).removeClass("grabbed");
+$('.task-error').dialog({
+    dialogClass: 'no-close',
+    modal: true,
+    autoOpen: false,
+    open: () => {
+        $('body').bind('click', function () {
+            $('.dialog').dialog('close');
+        })
+    }
 });
 
+function duplicateNote(el) {
+    $('.note-error').dialog('open');
+}
 
-$(" .ui-resizable-handle").css('z-index', '0');
-
-let loadAll, createCard, createTask;
-
-let array = ['zero', 'one', 'two', 'three'];
-array.splice(1, 2, 'five');
-console.log(array);
-
-
-console.log("Hooray!");
-
-
-function addItem(el) {
-    let myval = $(el).val();
-    console.log(myval);
-    $(".list").append("<div class='row'>" +
-        "<i onclick='deleteItem(this)' class='fas fa-trash'></i>" +
-        "<span contenteditable='true'>" + myval + "</span>" +
-        "</div>");
-    $(".myinput").val("");
-    $(".myinput").focus();
+function duplicateTask(el) {
+    $('.task-error').dialog('open');
 }
 
 
-function checkKey(event) {
-    console.log($(this).valueOf());
+// --------------
+//  New Notes/Tasks
+// --------------
 
-    // (event.which === 13) ? addItem(el) : '';
+function buildNote(name, html2of3, top = 0, left = 0) {
+    if (!top || !left) {
+        top = ($('body').height() - 300) * (Math.random().toFixed(2));
+        left = ($('body').width() - 300) * (Math.random().toFixed(2));
+    }
+
+    let html1of3 =
+        `<div class="note draggable resizable" 
+              style="position:absolute; top: ${top}px; left: ${left}px">
+            <div class="pin grab"></div>
+            <div class="note-body">
+            <i class="pointer fas fa-times warn delete-note" 
+               onclick="deleteNote(this)"></i>
+            <div class="note-title">${name}</div>
+            <div class="note-todo-list">`;
+    let html3of3 =
+        `</div>
+        <div class="todo-item">
+            <input class="todo-input" type="text" 
+                   placeholder="+new task" onkeyup="checkKey(event, addTask)">
+            <button class="pointer" 
+                    onclick="addTask($(this).siblings(\'.todo-input\')[0])">+add
+            </button>
+            </div></div></div>`;
+
+    return (html1of3 + html2of3 + html3of3);
+}
+
+
+function buildTask(task) {
+    let taskHTMLOne = '<div class="todo-item">' +
+        '<div><i class="pointer fas fa-times warn" onclick="deleteItem(this)"></i>' +
+        '<span class="todo-text" contenteditable="false">';
+    let taskHTMLTwo = '</span></div>' +
+        '<input type="checkbox" class="" onclick="taskDone($(this))" /></div>';
+
+    return (taskHTMLOne + task + taskHTMLTwo)
+}
+
+// Add a new Note to the List
+function addNote(element) {
+
+    event.stopPropagation(); //Stops click behavior
+    let myval = element.value;
+    if (masterList.hasOwnProperty(myval)) {
+        duplicateNote();
+    } else {
+        let el = buildNote(myval);
+        $('.board').append();
+        $(".todoInput").val("").focus();
+
+        dynamicNotes();         //makes new note draggable and resizable
+
+        masterList[myval] = {   //Adds list to master list
+            tasks: [],
+            top: 0,
+            left: 0
+        }
+    }
+    update();
+}
+
+// Adds a new to-do item to a Note
+function addTask(element) {
+    event.stopPropagation();
+    let myval = $(element).val();
+    let title = $(element).parent().siblings('.note-title')[0].innerText;
+    if ($.inArray(myval, masterList[title]) !== -1) {
+        duplicateTask();
+    } else {
+        masterList[title].tasks.push(myval);
+        $(element).parent().siblings('.note-todo-list').append(
+            buildTask(myval)
+        );
+        $(element).val("").focus();
+    }
+    update();
+}
+
+// Checks to see if Return was hit on an input and then submits it
+function checkKey(event, func) {
+    let el = event.currentTarget;
+    if (event.which === 13) {
+        func(el);
+    }
+}
+
+function deleteNote(element) {
+    let title = $(element).siblings('.note-title')[0].innerText;
+    delete masterList[title];
+    $(element).parent().parent().remove();
+    update();
 }
 
 function deleteItem(element) {
-    $(element).parent().remove();
+    let title = $(element).parent().parent().parent().siblings('.note-title')[0].innerText;
+    let myval = $(element).siblings('.todo-text')[0].innerText;
+    let array = masterList[title].tasks;
+    let index = array.indexOf(myval);
+
+    $(element).parent().parent().remove();
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
+    update();
+}
+
+function taskDone(el) {
+    el.hasClass('done') ? $(el).removeClass('done') : $(el).addClass('done')
 }
 
 
-loadAll = function () {
-    //loop through object and make cards on load
+dynamicNotes();     // Runs Resizable/Draggable on load
 
-    //loop through cards and make tasks on load
-};
-
-createCard = function () {
-    //loop through masterlist and to add naming scema
-
-    //append to html
-
-};
-
-createTask = function () {
+reload();           // Gets info from local storage and recreates the notes
 
 
-    //loop through card object and add nameing schema
-
-    //append to html
-};
-
-
-let masterList = {
-    unassigned: {name: 'Unassigned:', tasks: []}
-
-};
-
-
-let addList = function (name) {
-    masterList[name] = [];
-//Need to make an html element for the list.
-// '<option> + task + '></option>' for example
-//    so you can target the id to grab the tsk to delete later
-};
-
-
-addTaskToList = function (task) {
-    let name = document.getElementById('selectBar').value || 'unassigned';
-    masterList[name].push(task);
-//Need to make an html element for the task.
-// '<li id="' + task + '"></li>' for example
-//    so you can target the id to grab the tsk to delete later
-};
-
-
+//Clear finished should go search for all el with finished class and then run through the array and delete the masterlist/el

@@ -4,42 +4,30 @@
 	 viewBox="0 0 89.8 89.7" style="enable-background:new 0 0 89.8 89.7;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_1_);}
-	.st1{opacity:0.2778;fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_2_);enable-background:new    ;}
-	.st2{filter:url(#c);}
-	.st3{fill:#A0892C;}
-	.st4{fill:#D40000;}
-	.st5{fill:#EE0000;}
-	.st6{fill:#FF0000;}
-	.st7{fill:#AA0000;}
+	.st1{fill:#A0892C;}
+	.st2{fill:#D40000;}
+	.st3{fill:#EE0000;}
+	.st4{fill:#FF0000;}
+	.st5{fill:#AA0000;}
 </style>
-<filter  height="1.3585" id="c" width="1.3599" x="-.17994" y="-.17925">
-	<feGaussianBlur  stdDeviation="18.47879"></feGaussianBlur>
-</filter>
 <g transform="translate(0,24)">
 	
-		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="1181.751" y1="1033.5094" x2="1603.282" y2="1504.9293" gradientTransform="matrix(0 0.2337 0.2452 0 -249.1989 -288.7105)">
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="1194.7" y1="-977.9719" x2="1616.231" y2="-1449.3918" gradientTransform="matrix(0 0.2337 -0.2452 0 -235.5445 -291.7757)">
 		<stop  offset="0" style="stop-color:#FEFDB7"/>
 		<stop  offset="1" style="stop-color:#F5F06C"/>
 	</linearGradient>
 	<path class="st0" d="M86.1-20.9c-1.2,28.2-0.7,58.8,3.7,85.7c-29.9-0.4-60.2-3.2-88-1.4c0.1,0.3,5.9,5.2-0.3-0.3
 		c-0.5-36.4,2.4-50.9,0-84c0-0.2,0.1-0.3,0.3-0.3c28.2,1.1,56.5,2.6,84,0C85.9-21.2,86.1-21.1,86.1-20.9L86.1-20.9z"/>
-	
-		<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="2280.032" y1="1166.9155" x2="2619.2419" y2="1397.0555" gradientTransform="matrix(0 0.146 0.1819 0 -191.3184 -350.6751)">
-		<stop  offset="0" style="stop-color:#FFFFFF"/>
-		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
-	</linearGradient>
-	<path class="st1" d="M89.5-21.2l-40.8-0.2L0.2-22c0,0-5.2,129.1,37.9,58.3S85.1-12,89.5-21.2L89.5-21.2z"/>
-	<g class="st2">
-		<ellipse transform="matrix(0.9837 -0.1799 0.1799 0.9837 3.1332 7.6378)" class="st3" cx="43.7" cy="-13.5" rx="7" ry="6.6"/>
+	<g>
+		<ellipse transform="matrix(0.9837 -0.1799 0.1799 0.9837 3.1421 7.6398)" class="st1" cx="43.7" cy="-13.5" rx="7" ry="6.6"/>
 	</g>
-	<path class="st4" d="M52.1-16.6c0.7,3.6-1.9,7-5.7,7.7c-3.8,0.7-7.4-1.6-8-5.2c-0.7-3.6,1.9-7,5.7-7.7
-		C47.9-22.5,51.5-20.2,52.1-16.6z"/>
-	<path class="st5" d="M52.5-17l-6.7,1.2l-1.4,6.3c0.8,0.1,1.6,0.1,2.4,0C50.5-10.1,53-13.5,52.5-17L52.5-17z"/>
-	<path class="st6" d="M45.8-22.5c-0.5,0-0.9,0-1.4,0.1c-3.8,0.7-6.3,4.1-5.7,7.7c0.5,2.8,2.8,4.8,5.6,5.2l1.4-6.3l6.7-1.2
+	<path class="st2" d="M52.1-16.6c0.7,3.6-1.9,7-5.7,7.7s-7.4-1.6-8-5.2c-0.7-3.6,1.9-7,5.7-7.7C47.9-22.5,51.5-20.2,52.1-16.6z"/>
+	<path class="st3" d="M52.5-17l-6.7,1.2l-1.4,6.3c0.8,0.1,1.6,0.1,2.4,0C50.5-10.1,53-13.5,52.5-17L52.5-17z"/>
+	<path class="st4" d="M45.8-22.5c-0.5,0-0.9,0-1.4,0.1c-3.8,0.7-6.3,4.1-5.7,7.7c0.5,2.8,2.8,4.8,5.6,5.2l1.4-6.3l6.7-1.2
 		c0-0.1,0-0.1,0-0.2C51.9-20.3,49.1-22.4,45.8-22.5L45.8-22.5z"/>
-	<path class="st7" d="M43-18.9l-0.5,0.4l-0.9,0.7c-0.4,0.8-0.3,1.7-0.1,2.6c0.6,2.4,2.4,3.5,4.8,3.2c1.3-0.1,2.4-0.6,3.1-1.5
+	<path class="st5" d="M43-18.9l-0.5,0.4l-0.9,0.7c-0.4,0.8-0.3,1.7-0.1,2.6c0.6,2.4,2.4,3.5,4.8,3.2c1.3-0.1,2.4-0.6,3.1-1.5
 		l1.3-1.6L43-18.9L43-18.9z"/>
-	<path class="st4" d="M52.4-19.5c0.5,2.8-1.5,5.5-4.4,6c-3,0.5-5.8-1.3-6.3-4.1s1.5-5.5,4.4-6S51.9-22.3,52.4-19.5z"/>
-	<path class="st6" d="M52.8-19.8c0.5,2.8-1.5,5.5-4.4,6c-3,0.5-5.8-1.3-6.3-4.1s1.5-5.5,4.4-6S52.3-22.6,52.8-19.8z"/>
+	<path class="st2" d="M52.4-19.5c0.5,2.8-1.5,5.5-4.4,6c-3,0.5-5.8-1.3-6.3-4.1s1.5-5.5,4.4-6S51.9-22.3,52.4-19.5z"/>
+	<path class="st4" d="M52.8-19.8c0.5,2.8-1.5,5.5-4.4,6c-3,0.5-5.8-1.3-6.3-4.1s1.5-5.5,4.4-6S52.3-22.6,52.8-19.8z"/>
 </g>
 </svg>

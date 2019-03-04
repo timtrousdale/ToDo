@@ -5,23 +5,69 @@ html, body {
   margin: 0;
 }
 
+textarea, select, input, button {
+  outline: none;
+}
+
+.warn {
+  color: orangered;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: url(../img/frame.png);
+  background-repeat: repeat-x;
+}
+.header .note-input {
+  margin: 5px;
+  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.75);
+  font-size: 1.2em;
+}
+.header .title {
+  color: white;
+  text-shadow: 3px 3px 2px black;
+  margin: 6px;
+}
+.header button {
+  margin: 5px;
+  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.75);
+  font-size: 0.9em;
+  border-radius: 5px;
+}
+
 .board {
-  height: 100%;
+  height: calc(100% - 50px);
   width: 100%;
   background-image: url(../img/cork.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
 }
-
 .note {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 300px;
+  min-width: 300px;
   height: 300px;
   width: 300px;
   background-image: url("../img/note3.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  position: relative;
 }
 .note .pin {
   position: absolute;
@@ -38,6 +84,32 @@ html, body {
   padding-right: 30px;
   padding-top: 60px;
 }
+.note .note-body .delete-note {
+  position: absolute;
+  top: 8%;
+  right: 10%;
+  font-size: 1.5em;
+}
+.note .note-body .todo-input {
+  background: #fff800;
+  border: none;
+  width: 80%;
+  margin-right: 10%;
+}
+.note .note-body .note-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-decoration: underline;
+}
+.note .note-body .todo-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.note .note-body .todo-text {
+  margin-left: 15px;
+}
 
 .ui-resizable-handle {
   position: absolute;
@@ -50,8 +122,16 @@ html, body {
   cursor: grab;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .grab.grabbed {
   cursor: grabbing;
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
 }
 
 /*# sourceMappingURL=styles.css.map */

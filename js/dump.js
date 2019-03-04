@@ -1,5 +1,5 @@
 let masterList = {
-    Random: {
+    Unassigned: {
         tasks: [],
         top: '0',
         left: '0'
@@ -64,7 +64,7 @@ function reload() {  // Reloads all your notes from local storage on page load
 
         // Adds saved notes
         for (list in masterList) {
-            if (list !== 'Random') {
+            if (list !== 'Unassigned') {
                 let ob = masterList[list];
                 let top = ob.top;
                 let left = ob.left;
@@ -80,11 +80,11 @@ function reload() {  // Reloads all your notes from local storage on page load
 
 
             } else {
-                masterList['Random'].tasks.forEach(function (val) {
+                masterList['Unassigned'].tasks.forEach(function (val) {
                     let task = buildTask(val);
-                    $($('#Random').find('.note-todo-list')[0]).append(task);
+                    $($('#Unassigned').find('.note-todo-list')[0]).append(task);
                 });
-                $('#Random').css({top: masterList['Random'].top, left: masterList['Random'].left})
+                $('#Unassigned').css({top: masterList['Unassigned'].top, left: masterList['Unassigned'].left})
             }
         }
     }
@@ -98,7 +98,7 @@ function clearCache() {
 
 
 // --------------
-//  Error Modals
+//  Error Modal
 // --------------
 
 $('.note-error').dialog({
@@ -112,23 +112,8 @@ $('.note-error').dialog({
     }
 });
 
-$('.task-error').dialog({
-    dialogClass: 'no-close',
-    modal: true,
-    autoOpen: false,
-    open: () => {
-        $('body').bind('click', function () {
-            $('.dialog').dialog('close');
-        })
-    }
-});
-
-function duplicateNote() {
+function duplicateNote(el) {
     $('.note-error').dialog('open');
-}
-
-function duplicateTask() {
-    $('.task-error').dialog('open');
 }
 
 
@@ -136,7 +121,12 @@ function duplicateTask() {
 //  New Notes/Tasks
 // --------------
 
-function buildNote(name, html2of3 = '', top = 0, left = 0) {
+function buildNote(name, html2of3, top = 0, left = 0) {
+    if (!top || !left) {
+        top = ($('body').height() - 300) * (Math.random().toFixed(2));
+        left = ($('body').width() - 300) * (Math.random().toFixed(2));
+    }
+
     let html1of3 =
         `<div class="note draggable resizable" 
               style="position:absolute; top: ${top}px; left: ${left}px">
@@ -172,26 +162,21 @@ function buildTask(task) {
 
 // Add a new Note to the List
 function addNote(element) {
-    event.stopPropagation(); //Stops odd click behavior
+    event.stopPropagation(); //Stops click behavior
 
-    let top = ($('.board').height() - 300) * (Math.random().toFixed(2));
-    let left = ($('.board').width() - 300) * (Math.random().toFixed(2));
     let myval = element.value;
-
     if (masterList.hasOwnProperty(myval)) {
         duplicateNote();
     } else {
-        let note = buildNote(myval, '', top, left);
+        console.log('runs');
+        let note = buildNote(myval);
         $('.board').append(note);
         $(".note-input").val("").focus();
-        console.log($(note));
-        console.log(note);
-
 
         masterList[myval] = {   //Adds Note to master list
             tasks: [],
-            top: top,
-            left: left
+            top: 0,
+            left: 0
         };
 
         dynamicNotes();     //makes new note draggable and resizable
@@ -206,16 +191,10 @@ function addTask(element) {
     let el = $(element);
     let task = el.val();
     let note = el.parent().siblings('.note-title')[0].innerText;
-    let index = masterList[note].tasks.indexOf(task);
-    console.log(index);
 
-    if (index !== -1) {
-        duplicateTask();
-    } else {
-        el.parent().siblings('.note-todo-list').append(buildTask(task));
-        masterList[note].tasks.push(task);
-        el.val("").focus();
-    }
+    el.parent().siblings('.note-todo-list').append(buildTask(task));
+    masterList[note].tasks.push(task);
+    el.val("").focus();
 
     update();
 }
@@ -262,16 +241,12 @@ reload();           // Gets info from local storage and recreates the notes
 
 function clearFinishedTasks() {
     let finished = $('body').find('.done');
-    $.each(finished, (indx, el) => {
-        el = $(el);
-        let task = el.find('.todo-text')[0].innerText;
-        let note = el.parent().siblings('.note-title')[0].innerText;
-        let array = masterList[note].tasks;
-        let index = array.indexOf(task);
-        array.splice(index, 1);
-        el.remove();
-    });
-    update()
+    $.each(finished, (index, el) => {
+            el = $(el);
+            let note = el.parent().siblings('.note-title')[0].innerText;
+            console.log(masterList[note].tasks);
+        }
+    );
 
 }
 

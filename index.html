@@ -23,7 +23,7 @@
             <input class="note-input" type="text" placeholder="+new note" onkeyup="checkKey(event, addNote)">
             <button class="add-note pointer" onclick="addNote($(this).siblings('.note-input')[0])">+add</button>
         </div>
-        <button class="pointer">Clear All Finished Tasks</button>
+        <button class="pointer" onclick="clearFinishedTasks()">Clear Finished Tasks</button>
     </div>
 
 
@@ -34,18 +34,18 @@
             <p>A Note with that name already exists</p>
         </div>
         <div class="dialog task-error" title="whoops!">
-            <p>That Task is already on your Note</p>
+            <p>That task is already on this note</p>
         </div>
-        <!-- END Error Modals-->
+        <!-- END Error Modals -->
 
-        <div class="note draggable resizable" id="Unassigned">
+        <div class="note draggable resizable" id="Random">
 
             <div class="pin grab"></div>
             <div class="note-body">
 
-                <div class="note-title">Unassigned</div>
-                <div class="note-todo-list" id="Unassigned"></div>
-                <div class="todo-item" id="">
+                <div class="note-title">Random</div>
+                <div class="note-todo-list" id="Random"></div>
+                <div class="todo-item">
                     <input class="todo-input" type="text" placeholder="+new task" onkeyup="checkKey(event, addTask)">
                     <button class="pointer" onclick="addTask($(this).siblings('.todo-input')[0])">+add</button>
                 </div>

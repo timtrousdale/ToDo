@@ -1,3 +1,5 @@
+let loadAll, createCard, createTask, pin;
+
 let masterList = {
     Random: {
         tasks: [],
@@ -6,13 +8,14 @@ let masterList = {
     }
 };
 
-let loadAll, createCard, createTask, pin;
+// ---------------------
+//  Usability Functions
+// ---------------------
 
+// Makes notes draggable/resizable
 function dynamicNotes() {
-    // Makes notes draggable
     $(".draggable").draggable({handle: ".pin", containment: "parent",});
 
-    // Makes notes resizable
     $(".resizable").resizable({
         aspectRatio: true,
         resize: (event, ui) => {
@@ -50,14 +53,14 @@ $(".board").on("mousedown", '.pin', function () {
     update();           // Updates note location in local storage
 });
 
-
-//Gets the Note name/Task Name to update masterList
+//Stores note info
 function update() {
     let todo = JSON.stringify(masterList);
     localStorage.setItem('todo', todo);
 }
 
-function reload() {  // Reloads all your notes from local storage on page load
+// Reloads all your notes from local storage on page load
+function reload() {
     let local = localStorage.getItem('todo');
     if (local) {
         masterList = JSON.parse(local);
@@ -91,11 +94,18 @@ function reload() {  // Reloads all your notes from local storage on page load
     dynamicNotes(); //makes dynamically added after load notes Dynamic
 }
 
+// Checks to see if Return was hit on an input and then submits it
+function checkKey(event, func) {
+    let el = event.currentTarget;
+    if (event.which === 13) {
+        func(el);
+    }
+}
 
+//Removes everything from local storage
 function clearCache() {
     localStorage.clear();
 }
-
 
 // --------------
 //  Error Modals
@@ -131,15 +141,15 @@ function duplicateTask() {
     $('.task-error').dialog('open');
 }
 
-
-// --------------
+// ----------------
 //  New Notes/Tasks
-// --------------
+// ----------------
 
-function buildNote(name, html2of3 = '', top = 0, left = 0) {
+// BUILDS HTML for Note
+function buildNote(name, html2of3 = '', top = '0', left = '0') {
     let html1of3 =
         `<div class="note draggable resizable" 
-              style="position:absolute; top: ${top}px; left: ${left}px">
+              style="position:absolute; top: ${top}px; left: ${left}px;">
             <div class="pin grab"></div>
             <div class="note-body">
             <i class="pointer fas fa-times warn delete-note" 
@@ -159,16 +169,16 @@ function buildNote(name, html2of3 = '', top = 0, left = 0) {
     return (html1of3 + html2of3 + html3of3);
 }
 
-
+// BUILDS HTML for Task
 function buildTask(task) {
-    let taskHTMLOne = '<div class="todo-item">' +
-        '<div><i class="pointer fas fa-times warn" onclick="deleteItem(this)"></i>' +
-        '<span class="todo-text" contenteditable="false">';
-    let taskHTMLTwo = '</span></div>' +
-        '<input type="checkbox" class="" onclick="taskDone($(this))" /></div>';
-
-    return (taskHTMLOne + task + taskHTMLTwo)
+    return `<div class="todo-item">
+        <i class="pointer fas fa-times warn" onclick="deleteItem(this)"></i>
+        <div class="todo-text" contenteditable="false">${task}</div>
+    <input type="checkbox" class="" onclick="taskDone($(this))"/>
+</div>`;
 }
+
+
 
 // Add a new Note to the List
 function addNote(element) {
@@ -207,8 +217,6 @@ function addTask(element) {
     let task = el.val();
     let note = el.parent().siblings('.note-title')[0].innerText;
     let index = masterList[note].tasks.indexOf(task);
-    console.log(index);
-
     if (index !== -1) {
         duplicateTask();
     } else {
@@ -220,13 +228,9 @@ function addTask(element) {
     update();
 }
 
-// Checks to see if Return was hit on an input and then submits it
-function checkKey(event, func) {
-    let el = event.currentTarget;
-    if (event.which === 13) {
-        func(el);
-    }
-}
+// ---------------------
+//  Note/Task Deletions
+// ---------------------
 
 function deleteNote(el) {
     el = $(el);
@@ -238,12 +242,12 @@ function deleteNote(el) {
 
 function deleteItem(el) {
     el = $(el);
-    let title = el.parent().parent().parent().siblings('.note-title')[0].innerText;
+    let title = el.closest('.note-todo-list').siblings('.note-title')[0].innerText;
     let task = el.siblings('.todo-text')[0].innerText;
     let array = masterList[title].tasks;
     let index = array.indexOf(task);
 
-    el.parent().parent().remove();
+    el.parent().remove();
     if (index !== -1) {
         array.splice(index, 1);
     }
@@ -254,11 +258,6 @@ function taskDone(el) {
     el = $(el).parent('.todo-item');
     el.hasClass('done') ? el.removeClass('done') : el.addClass('done')
 }
-
-
-dynamicNotes();     // Runs Resizable/Draggable on load
-
-reload();           // Gets info from local storage and recreates the notes
 
 function clearFinishedTasks() {
     let finished = $('body').find('.done');
@@ -272,7 +271,12 @@ function clearFinishedTasks() {
         el.remove();
     });
     update()
-
 }
 
-//Clear finished should go search for all el with finished class and then run through the array and delete the masterlist/el
+// -------------------
+//  On Load Functions
+// -------------------
+dynamicNotes();     // Runs Resizable/Draggable on load
+
+reload();           // Gets info from local storage and recreates the notes
+

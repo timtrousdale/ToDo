@@ -109,6 +109,7 @@ function clearCache() {
 
 let original = '';
 let taskChangeReady = true;
+
 function checkChangeTask(el) {
     event.stopPropagation();
     el = $(el);
@@ -203,7 +204,6 @@ function buildTask(task) {
 }
 
 
-
 // Add a new Note to the List
 function addNote(el) {
     event.stopPropagation(); //Stops odd click behavior
@@ -218,8 +218,7 @@ function addNote(el) {
         let note = buildNote(myval, '', top, left);
         $('.board').append(note);
         $(".note-input").val("").focus();
-        console.log($(note));
-        console.log(note);
+
 
 
         masterList[myval] = {   //Adds Note to master list
@@ -260,7 +259,11 @@ function deleteNote(el) {
     el = $(el);
     let title = el.siblings('.note-title')[0].innerText;
     delete masterList[title];
-    el.parent().parent().remove();
+    el = el.parent().parent();
+
+    el.fadeOut( 1250, function () {
+        $(this).remove();
+    });
     update();
 }
 
@@ -271,7 +274,9 @@ function deleteItem(el) {
     let array = masterList[title].tasks;
     let index = array.indexOf(task);
 
-    el.parent().remove();
+    el.parent().slideUp(function () {
+        $(this).remove();
+    });
     if (index !== -1) {
         array.splice(index, 1);
     }

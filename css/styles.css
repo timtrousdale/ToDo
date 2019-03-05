@@ -69,6 +69,7 @@ textarea, select, input, button {
   background-position: center;
   background-size: cover;
   overflow: hidden;
+  animation-direction: alternate;
 }
 .note .pin {
   position: absolute;
@@ -142,6 +143,10 @@ textarea, select, input, button {
 
 .no-close .ui-dialog-titlebar-close {
   display: none;
+}
+
+.shrink {
+  transform: scale(0);
 }
 
 /*# sourceMappingURL=styles.css.map */

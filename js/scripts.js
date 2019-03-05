@@ -107,6 +107,30 @@ function clearCache() {
     localStorage.clear();
 }
 
+let original = '';
+let taskChangeReady = true;
+function checkChangeTask(el) {
+    event.stopPropagation();
+    el = $(el);
+
+    if (taskChangeReady) {
+        original = el[0].innerText;
+        taskChangeReady = false;
+    } else {
+        return
+    }
+}
+
+function changeTask(el) {
+    event.stopPropagation();
+    el = $(el);
+    let note = el.closest('.note-todo-list').siblings('.note-title')[0].innerText;
+    let task = el[0].innerText;
+    let index = masterList[note].tasks.indexOf(original);
+    masterList[note].tasks[index] = task;
+    taskChangeReady = true;
+}
+
 // --------------
 //  Error Modals
 // --------------
@@ -173,7 +197,7 @@ function buildNote(name, html2of3 = '', top = '0', left = '0') {
 function buildTask(task) {
     return `<div class="todo-item">
         <i class="pointer fas fa-times warn" onclick="deleteItem(this)"></i>
-        <div class="todo-text" contenteditable="false">${task}</div>
+        <div class="todo-text" contenteditable="true" onkeydown="checkChangeTask(this)" onkeyup="changeTask(this)">${task}</div>
     <input type="checkbox" class="" onclick="taskDone($(this))"/>
 </div>`;
 }
@@ -181,12 +205,12 @@ function buildTask(task) {
 
 
 // Add a new Note to the List
-function addNote(element) {
+function addNote(el) {
     event.stopPropagation(); //Stops odd click behavior
 
     let top = ($('.board').height() - 300) * (Math.random().toFixed(2));
     let left = ($('.board').width() - 300) * (Math.random().toFixed(2));
-    let myval = element.value;
+    let myval = el.value;
 
     if (masterList.hasOwnProperty(myval)) {
         duplicateNote();

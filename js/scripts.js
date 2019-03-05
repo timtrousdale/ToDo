@@ -296,8 +296,10 @@ function clearFinishedTasks() {
         let note = el.parent().siblings('.note-title')[0].innerText;
         let array = masterList[note].tasks;
         let index = array.indexOf(task);
+        el.slideUp(function () {
+            $(this).remove();
+        });
         array.splice(index, 1);
-        el.remove();
     });
     update()
 }

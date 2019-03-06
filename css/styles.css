@@ -56,6 +56,14 @@ textarea, select, input, button {
   flex-wrap: wrap;
   position: relative;
 }
+.board .image-link {
+  height: 40px;
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 0;
+}
+
 .note {
   position: absolute;
   top: 0;

@@ -174,6 +174,7 @@ function duplicateTask() {
 
 // Returns BUILDS HTML for Note
 function buildNote(name, html2of3 = '', top = '0', left = '0') {
+    // noinspection CssInvalidPropertyValue
     let html1of3 =
         `<div class="note draggable resizable" 
               style="position:absolute; top: ${top}px; left: ${left}px;">

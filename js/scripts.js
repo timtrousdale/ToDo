@@ -166,11 +166,13 @@ function duplicateTask() {
     $('.task-error').dialog('open');
 }
 
+
+
 // ----------------
-//  New Notes/Tasks
+//   Notes
 // ----------------
 
-// BUILDS HTML for Note
+// Returns BUILDS HTML for Note
 function buildNote(name, html2of3 = '', top = '0', left = '0') {
     let html1of3 =
         `<div class="note draggable resizable" 
@@ -192,15 +194,6 @@ function buildNote(name, html2of3 = '', top = '0', left = '0') {
             </div></div></div>`;
 
     return (html1of3 + html2of3 + html3of3);
-}
-
-// BUILDS HTML for Task
-function buildTask(task) {
-    return `<div class="todo-item">
-        <i class="pointer fas fa-times warn" onclick="deleteItem(this)"></i>
-        <div class="todo-text" contenteditable="true" onkeydown="checkChangeTask(this)" onkeyup="changeTask(this)">${task}</div>
-    <input type="checkbox" class="" onclick="taskDone($(this))"/>
-</div>`;
 }
 
 
@@ -233,7 +226,34 @@ function addNote(el) {
     update();
 }
 
-// Adds a new to-do item to a Note
+function deleteNote(el) {
+    el = $(el);
+    let title = el.siblings('.note-title')[0].innerText;
+    delete masterList[title];
+    el = el.parent().parent();
+
+    el.fadeOut( 1250, function () {
+        $(this).remove();
+    });
+    update();
+}
+
+
+
+// ---------------------
+//  Note/Task Deletions
+// ---------------------
+
+// Returns BUILDS HTML for Task
+function buildTask(task) {
+    return `<div class="todo-item">
+        <i class="pointer fas fa-times warn" onclick="deleteItem(this)"></i>
+        <div class="todo-text" contenteditable="true" onkeydown="checkChangeTask(this)" onkeyup="changeTask(this)">${task}</div>
+    <input type="checkbox" class="" onclick="taskDone($(this))"/>
+</div>`;
+}
+
+// Adds a New Task to a Note
 function addTask(element) {
     event.stopPropagation();
     let el = $(element);
@@ -248,22 +268,6 @@ function addTask(element) {
         el.val("").focus();
     }
 
-    update();
-}
-
-// ---------------------
-//  Note/Task Deletions
-// ---------------------
-
-function deleteNote(el) {
-    el = $(el);
-    let title = el.siblings('.note-title')[0].innerText;
-    delete masterList[title];
-    el = el.parent().parent();
-
-    el.fadeOut( 1250, function () {
-        $(this).remove();
-    });
     update();
 }
 
@@ -304,10 +308,15 @@ function clearFinishedTasks() {
     update()
 }
 
+
+
 // -------------------
 //  On Load Functions
 // -------------------
-dynamicNotes();     // Runs Resizable/Draggable on load
 
-reload();           // Gets info from local storage and recreates the notes
+// Runs Resizable/Draggable on load
+dynamicNotes();
+
+// Gets info from local storage and recreates the notes
+reload();
 

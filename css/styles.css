@@ -108,7 +108,7 @@ textarea, select, input, button {
   font-size: 1.5em;
 }
 .note .note-body .todo-input {
-  background: #fff800;
+  background: #F9FAC7;
   border: none;
   flex-grow: 1;
   margin-right: 10%;
